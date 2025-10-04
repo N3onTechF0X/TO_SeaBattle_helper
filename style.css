@@ -1,0 +1,199 @@
+:root {
+    --gap: 6px;
+    --bg-0: #0b1a33;
+    --bg-1: #052132;
+    --panel: rgba(255, 255, 255, 0.03);
+    --muted: #93c5fd;
+    --accent: #7c3aed;
+    --accent-2: #a78bfa;
+    --good: #10b981;
+    --text: #e6eef8;
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --shadow: 0 8px 40px rgba(2, 6, 23, 0.6);
+    --radius: 12px;
+    --trans: 240ms cubic-bezier(.2, .9, .2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    background: linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap {
+    width: 90vw;
+    height: 90vh;
+    padding: 20px;
+    border-radius: calc(var(--radius) + 4px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.016), rgba(255, 255, 255, 0.01));
+    box-shadow: var(--shadow);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+h1 {
+    margin-bottom: 6px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.muted {
+    color: #9fbbe8;
+    font-size: 13px;
+    text-align: center;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+.message {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #ff6666;
+    min-height: 18px;
+    text-align: center;
+}
+
+.board {
+    flex: 1;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: var(--gap);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(2, 6, 23, 0.3);
+}
+
+.cell {
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    user-select: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.00));
+    transition: background-color var(--trans), box-shadow var(--trans);
+    position: relative;
+    box-shadow: inset 0 0 2px rgba(124, 58, 237, 0.5);
+}
+
+.cell:focus {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.cell:hover {
+    background: rgba(124, 58, 237, 0.08);
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.1) inset;
+}
+
+.state-empty {
+    color: #9fbbe8;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0));
+}
+
+.state-miss {
+    background: linear-gradient(180deg, #0f1724 0%, #162440 100%);
+    color: #7dd3fc;
+}
+
+.state-hit {
+    background: linear-gradient(180deg, #451212 0%, #ca4545 100%);
+    color: white;
+}
+
+.state-sunk {
+    background: linear-gradient(180deg, #042f25 0%, #065f46 100%);
+    color: #d1fae5;
+}
+
+.cell .mark {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.controls {
+    flex: 0 0 auto;
+    min-width: 320px;
+    padding: 14px;
+    background: var(--panel);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #bfdfff;
+    font-size: 13px;
+}
+
+input[type=number], input[type=range], select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.02);
+    color: inherit;
+    font-size: 14px;
+    box-shadow: inset 0 -6px 14px rgba(2, 6, 23, 0.4);
+}
+
+input[type=number]:focus, input[type=range]:focus {
+    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.12);
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12);
+    transition: transform 160ms cubic-bezier(.2, .9, .2, 1), box-shadow var(--trans), opacity var(--trans);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: translateY(1px) scale(0.996);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.10);
+}
+
+.small {
+    font-size: 13px;
+    color: #b6d3ff;
+}
+
+.sunk-text {
+    color: #2f8547;
+}

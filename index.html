@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Морской бой хелпер</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="top">
+        <div>
+            <h1>Морской бой хелпер</h1>
+            <div class="muted">Клик по клетке переключает её состояние: не открыта → мимо → ранен → потоплен</div>
+            <div style="display:flex;gap:10px;align-items:center;margin:10px;">
+                <button class="btn" id="compute">Анализ</button>
+                <button class="btn" id="reset">Сбросить поле</button>
+            </div>
+            <div class="board" id="board"></div>
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
