@@ -429,25 +429,18 @@ class Game {
         msg.textContent = `Осталось: квадрат ${remaining.square}, треугольники ${remaining.tri}, домино ${remaining.dom}, мина ${remaining.mine}`;
         msg.style.color = "#9fbbe8";
 
-        const hitCells = [];
-        for (let r = 0; r < H; r++)
-            for (let c = 0; c < W; c++) {
-                if (this.board.grid[r][c] === CellState.HIT) hitCells.push([r, c]);
-            }
-
         const clusters = this.analyzer.getHitClusters();
 
-        const squares = ShipPlacer.genSquare().filter(pl => this.analyzer.placementValid(pl));
-        const tris = ShipPlacer.genTriangle().filter(pl => this.analyzer.placementValid(pl));
-        const doms = ShipPlacer.genDomino().filter(pl => this.analyzer.placementValid(pl));
-        const mines = ShipPlacer.genMine().filter(pl => {
-            const [r, c] = pl[0];
-            if ([CellState.HIT, CellState.SUNK, CellState.MISS].includes(this.board.grid[r][c])) return false;
-            const neigh = this.analyzer.neighborsAll(pl);
-            for (const [nr, nc] of neigh)
-                if (this.board.grid[nr][nc] === CellState.SUNK && !(nr === r && nc === c)) return false;
-            return true;
-        });
+        let squares = [];
+        let tris = [];
+        let doms = [];
+
+        if (remaining.square > 0)
+            squares = ShipPlacer.genSquare().filter(pl => this.analyzer.placementValid(pl));
+        if (remaining.tri > 0)
+            tris = ShipPlacer.genTriangle().filter(pl => this.analyzer.placementValid(pl));
+        if (remaining.dom > 0)
+            doms = ShipPlacer.genDomino().filter(pl => this.analyzer.placementValid(pl));
 
         let placementsForTarget = [];
         if (clusters.length > 0) {
@@ -460,14 +453,9 @@ class Game {
             }
         }
 
-        const shipHeat = Array.from({
-            length: H
-        }, () => Array(W).fill(0));
-        const mineHeat = Array.from({
-            length: H
-        }, () => Array(W).fill(0));
+        const shipHeat = Array.from({ length: H }, () => Array(W).fill(0));
 
-        if (hitCells.length > 0 && placementsForTarget.length > 0) {
+        if (clusters.length > 0 && placementsForTarget.length > 0) {
             for (const pl of placementsForTarget) {
                 for (const [r, c] of pl) shipHeat[r][c] += 1;
             }
@@ -477,11 +465,6 @@ class Game {
             }
         }
 
-        for (const pl of mines) {
-            const [r, c] = pl[0];
-            mineHeat[r][c] += 1;
-        }
-
         const normalize = (map) => {
             const flat = map.flat();
             const sum = flat.reduce((a, b) => a + b, 0);
@@ -489,34 +472,19 @@ class Game {
             return map.map(row => row.map(v => v / sum));
         };
 
-        const shipProb = normalize(shipHeat);
-        const mineProb = normalize(mineHeat);
-
-        const score = Array.from({
-            length: H
-        }, () => Array(W).fill(0));
-        for (let r = 0; r < H; r++)
-            for (let c = 0; c < W; c++) {
-                score[r][c] = shipProb[r][c] - mineProb[r][c];
-            }
+        const score = normalize(shipHeat);
 
         const suggestions = [];
         for (let r = 0; r < H; r++)
             for (let c = 0; c < W; c++) {
                 if ([CellState.SUNK, CellState.MISS].includes(this.board.grid[r][c])) continue;
-                suggestions.push({
-                    r,
-                    c,
-                    score: score[r][c]
-                });
+                suggestions.push({ r, c, score: score[r][c] });
             }
         suggestions.sort((a, b) => b.score - a.score);
 
         this.board.render();
-        let maxScore = Math.max(...suggestions.map(s => s.score));
-        let minScore = Math.min(...suggestions.map(s => s.score));
-        if (!isFinite(maxScore)) maxScore = 0;
-        if (!isFinite(minScore)) minScore = 0;
+        const maxScore = Math.max(...suggestions.map(s => s.score));
+        const minScore = Math.min(...suggestions.map(s => s.score));
 
         document.querySelectorAll('.cell').forEach(el => el.style.boxShadow = '');
         for (let r = 0; r < H; r++)
