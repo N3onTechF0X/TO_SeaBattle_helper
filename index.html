@@ -7,21 +7,31 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-<div class="wrap">
-    <div class="top">
-        <div>
-            <h1>Морской бой хелпер</h1>
-            <div class="muted">Клик по клетке переключает её состояние: не открыта → мимо → ранен → потоплен</div>
-            <div style="display:flex;gap:10px;align-items:center;margin:10px;">
+    <h1>Морской бой хелпер</h1>
+    <div class="container">
+        <div class="left-panel">
+            <div class="muted">
+                Клик по клетке переключает её состояние: не открыта → мимо → ранен → потоплен
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;margin:10px 0;">
                 <button class="btn" id="compute">Анализ</button>
                 <button class="btn" id="reset">Сбросить поле</button>
             </div>
+            <div id="message" class="message">Осталось: квадрат 1, треугольники 2, домино 3, мина 1</div>
+        </div>
+        <div class="board-wrapper">
+            <div class="corner"></div>
+            <div class="letters">
+                <div>A</div><div>B</div><div>C</div><div>D</div>
+                <div>E</div><div>F</div><div>G</div><div>H</div>
+            </div>
+            <div class="numbers">
+                <div>1</div><div>2</div><div>3</div><div>4</div>
+                <div>5</div><div>6</div><div>7</div><div>8</div>
+            </div>
             <div class="board" id="board"></div>
-            <div id="message" class="message"></div>
         </div>
     </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
