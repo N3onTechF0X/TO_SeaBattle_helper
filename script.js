@@ -24,6 +24,7 @@ class Board {
         this.grid = this._createEmpty();
         this.render();
         this.container.querySelectorAll('.cell').forEach(x => x.style.boxShadow = '');
+        document.querySelector('.message').textContent = "Осталось: квадрат 1, треугольники 2, домино 3, мина 1";
     }
 
     toggleCell(r, c) {
