@@ -1,23 +1,25 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>Морской бой хелпер</title>
+    <title lang="title">Sea battle helper</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <h1>Морской бой хелпер</h1>
+    <h1 lang="title">Sea battle helper</h1>
     <div class="container">
         <div class="left-panel">
-            <div class="muted">
-                Клик по клетке переключает её состояние: не открыта → мимо → ранен → потоплен
+            <div class="muted" lang="tip">
+                Click a cell to toggle its state: unknown → miss → hit → sunk
             </div>
             <div style="display:flex;gap:10px;align-items:center;margin:10px 0;">
-                <button class="btn" id="compute">Анализ</button>
-                <button class="btn" id="reset">Сбросить поле</button>
+                <button class="btn" id="compute" lang="analyze">Analyze</button>
+                <button class="btn" id="reset" lang="reset">Reset field</button>
             </div>
-            <div id="message" class="message">Осталось: квадрат 1, треугольники 2, домино 3, мина 1</div>
+            <div id="message" class="message" lang="message">
+                Remaining: square 1, triangles 2, domino 3, mine 1
+            </div>
         </div>
         <div class="board-wrapper">
             <div class="corner"></div>
@@ -33,5 +35,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="lang.js"></script>
 </body>
 </html>

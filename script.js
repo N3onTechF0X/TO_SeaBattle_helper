@@ -24,11 +24,16 @@ class Board {
         this.grid = this._createEmpty();
         this.render();
         this.container.querySelectorAll('.cell').forEach(x => x.style.boxShadow = '');
-        document.querySelector('.message').textContent = "Осталось: квадрат 1, треугольники 2, домино 3, мина 1";
+        document.querySelector('.message').textContent = (localStorage.getItem("lang") === "ru")
+            ? "Осталось: квадрат 1, треугольники 2, домино 3, мина 1"
+            : "Remaining: square 1, triangles 2, domino 3, mine 1";
     }
 
-    toggleCell(r, c) {
-        this.grid[r][c] = (this.grid[r][c] + 1) % 4;
+    toggleCell(r, c, reverse = false) {
+        if (reverse)
+            this.grid[r][c] = (this.grid[r][c] + 3) % 4;
+        else
+            this.grid[r][c] = (this.grid[r][c] + 1) % 4;
         this.render();
     }
 
@@ -50,6 +55,11 @@ class Board {
                 div.appendChild(mark);
 
                 div.addEventListener('click', () => this.toggleCell(r, c));
+                div.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    this.toggleCell(r, c, true);
+                });
+                
                 this.container.appendChild(div);
             }
         }
@@ -420,13 +430,17 @@ class Game {
         msg.textContent = "";
 
         if (!this.validateField()) {
-            msg.textContent = "Невозможное поле: проверь правильность расставленных кораблей";
+            msg.textContent = (localStorage.getItem("lang") === "ru")
+                ? "Невозможное поле: проверь правильность расставленных кораблей"
+                : "Impossible field: check if the ships are placed correctly";
             msg.style.color = "#ff6666";
             return;
         }
 
         const remaining = this.countRemainingShips();
-        msg.textContent = `Осталось: квадрат ${remaining.square}, треугольники ${remaining.tri}, домино ${remaining.dom}, мина ${remaining.mine}`;
+        msg.textContent = (localStorage.getItem("lang") === "ru")
+            ? `Осталось: квадрат ${remaining.square}, треугольники ${remaining.tri}, домино ${remaining.dom}, мина ${remaining.mine}`
+            : `Remaining: square ${remaining.square}, triangles ${remaining.tri}, domino ${remaining.dom}, mine ${remaining.mine}`;
         msg.style.color = "#9fbbe8";
 
         const clusters = this.analyzer.getHitClusters();
