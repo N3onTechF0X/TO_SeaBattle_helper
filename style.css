@@ -38,17 +38,9 @@ h1 {
     text-align: left;
 }
 
-.muted {
+.muted .message {
     color: #9fbbe8;
-    font-size: 13px;
-    text-align: center;
-}
-
-.message {
-    margin-top: 6px;
     font-size: 14px;
-    color: #9fbbe8;
-    min-height: 18px;
 }
 
 .board-wrapper {
